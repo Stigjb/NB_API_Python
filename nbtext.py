@@ -448,15 +448,6 @@ def cloud(pd, column='', top=200, width=1000, height=1000, background='black', f
     return
 
 
-def convert_list_of_freqs_to_dataframe(referanse):
-    """The function get_papers() returns a list of frequencies - convert it"""
-    res = []
-    for x in referanse:
-        res.append( dict(x))
-    result = pd.DataFrame(res).transpose()
-    normalize_corpus_dataframe(result)
-    return result
-
 def get_corpus(top=5, cutoff=5, navn='%', corpus='avis', yearfrom=1800, yearto=2020, samplesize=10):
     if corpus == 'avis':
         result = get_papers(top=top, cutoff=cutoff, navn=navn, yearfrom=yearfrom, yearto=yearto, samplesize=samplesize)
