@@ -107,7 +107,7 @@ def get_urn(metadata={}):
     """Get urns fro metadata"""
     if not ('next' in metadata or 'neste' in metadata):
         metadata['next'] = 100
-    if not 'year' in metadata:
+    if 'year' not in metadata:
         metadata['year'] = 1900
     r = requests.get('https://api.nb.no/ngram/urn', json=metadata)
     return r.json()
@@ -247,7 +247,7 @@ class Cluster:
             res = korpus.sort_values(by=self.word, ascending=False)
         else:
             res = korpus.sort_values(by=self.word, ascending=False).iloc[:top]
-        if aslist == True:
+        if aslist:
             res = HTML(', '.join(list(res.index)))
         return res
 
@@ -549,7 +549,7 @@ class Corpus:
             res = res.sort_values(by=res.columns[0], ascending=False).iloc[:top]
         else:
             res = res.sort_values(by=res.columns[0], ascending=False)
-        if aslist == True:
+        if aslist:
             res = HTML(', '.join(list(res.index)))
         return res
 
@@ -628,7 +628,7 @@ def relaterte_ord(word, number=20, score=False):
 
     G = make_graph(word)
     res = Counter(nx.eigenvector_centrality(G)).most_common(number)
-    if score == False:
+    if not score:
         res = [x[0] for x in res]
     return res
 
