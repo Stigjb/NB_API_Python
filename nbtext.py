@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from collections import Counter
 import json
+import re
 import requests
 from IPython.display import HTML
 import seaborn as sns
@@ -15,13 +16,11 @@ except Exception:
 
 
 def totals(top=200):
-    import requests
     r = requests.get("https://api.nb.no/ngram/totals", json={'top': top})
     return dict(r.json())
 
 
 def navn(urn):
-    import requests
     if type(urn) is list:
         urn = urn[0]
     r = requests.get('https://api.nb.no/ngram/tingnavn', json={'urn': urn})
@@ -30,12 +29,10 @@ def navn(urn):
 
 def urn_from_text(T):
     """Return URNs as 13 digits (any sequence of 13 digits is counted as an URN)"""
-    import re
     return re.findall("(?<=digibok_)[0-9]{13}", T)
 
 
 def metadata(urn="""text"""):
-    import requests
     if type(urn) is str:
         urns = urn
     elif type(urn) is list:
@@ -214,8 +211,6 @@ def get_corpus(top=5, cutoff=5, navn='%', corpus='avis', yearfrom=1800, yearto=2
 
 class Cluster:
     from IPython.display import HTML, display
-    import pandas as pd
-    import json
 
     def __init__(self, word='', filename='', period=(1950, 1960), before=5, after=5, corpus='avis', reference=200,
                  word_samples=1000):
@@ -322,7 +317,6 @@ def sorted_wildcardsearch(params):
 
 
 def make_newspaper_network(key, wordbag, titel='%', yearfrom='1980', yearto='1990', limit=500):
-    import networkx as nx
     if type(wordbag) is str:
         wordbag = wordbag.split()
     r = requests.post("https://api.nb.no/ngram/avisgraph", json={
@@ -349,7 +343,6 @@ def make_network(urn, wordbag, cutoff=0):
 
 
 def make_network_graph(urn, wordbag, cutoff=0):
-    import networkx as nx
 
     r = requests.post("https://api.nb.no/ngram/graph", json={'urn': urn, 'words': wordbag})
     G = nx.Graph()
@@ -359,7 +352,6 @@ def make_network_graph(urn, wordbag, cutoff=0):
 
 def draw_graph_centrality(G, h=15, v=10, fontsize=20, k=0.2, arrows=False, font_color='black', threshold=0.01):
     from pylab import rcParams
-    import matplotlib.pyplot as plt
 
     node_dict = nx.degree_centrality(G)
     subnodes = dict({x: node_dict[x] for x in node_dict if node_dict[x] >= threshold})
@@ -426,7 +418,6 @@ def les_serie_cluster(word, startår, sluttår, inkrement):
 
 
 def make_cloud(json_text, top=100, background='white', stretch=lambda x: 2**(10*x), width=500, height=500, font_path=None):
-    from collections import Counter
     pairs0 = Counter(json_text).most_common(top)
     pairs = {x[0]: stretch(x[1]) for x in pairs0}
     wc = WordCloud(
@@ -440,7 +431,6 @@ def make_cloud(json_text, top=100, background='white', stretch=lambda x: 2**(10*
 
 
 def draw_cloud(sky, width=20, height=20, fil=''):
-    from matplotlib import pyplot as plt
     plt.figure(figsize=(width, height))
     plt.imshow(sky, interpolation='bilinear')
     figplot = plt.gcf()
@@ -449,7 +439,6 @@ def draw_cloud(sky, width=20, height=20, fil=''):
 
 
 def cloud(pd, column='', top=200, width=1000, height=1000, background='black', file='', stretch=10, font_path=None):
-    import json
     if column == '':
         column = pd.columns[0]
     data = json.loads(pd[column].to_json())
@@ -475,8 +464,6 @@ def compute_assoc(coll_frame, column, exponent=1.1, refcolumn='reference_corpus'
 
 class Corpus:
     from IPython.display import HTML, display
-    import pandas as pd
-    import json
 
     def __init__(self, filename='', period=(1950, 1960), author='%',
                  title='%', ddk='%', gender='%', subject='%', reference=100, max_books=100):
@@ -614,8 +601,6 @@ class Corpus:
 
 
 def vekstdiagram(urn, params=dict()):
-    import requests
-    import pandas as pd
 
     # if urn is the value of get_urn() it is a list
     # otherwise it just passes
@@ -639,7 +624,6 @@ def plot_sammen_vekst(urn, ordlister, window=5000, pr=100):
 
 
 def relaterte_ord(word, number=20, score=False):
-    import networkx as nx
     from networkx.algorithms import community
 
     G = make_graph(word)
@@ -714,8 +698,6 @@ def make_graph(word):
 
 
 def get_konk(word, params=dict(), kind='html'):
-    import requests
-    import pandas as pd
 
     para = params
     para['word'] = word
@@ -791,24 +773,18 @@ def konk_to_html(jsonkonk):
 
 
 def central_characters(graph, n=10):
-    import networkx as nx
-    from collections import Counter
 
     res = Counter(nx.degree_centrality(graph)).most_common(n)
     return res
 
 
 def central_betweenness_characters(graph, n=10):
-    import networkx as nx
-    from collections import Counter
 
     res = Counter(nx.betweenness_centrality(graph)).most_common(n)
     return res
 
 
 def get_urnkonk(word, params=dict(), html=True):
-    import requests
-    import pandas as pd
 
     para = params
     para['word'] = word
