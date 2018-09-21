@@ -762,12 +762,12 @@ def get_konk(word, params=dict(), kind='html'):
 
 def konk_to_html(jsonkonk):
     rows = ""
+    row_template = ("<tr><td><a href='{urn}' target='_'>{urnredux}</a></td>"
+                    "<td>{b}</td>"
+                    "<td>{w}</td>"
+                    "<td style='text-align:left'>{a}</td></tr>\n")
     for x in jsonkonk:
-        rows += "<tr><td><a href='{urn}' target='_'>{urnredux}</a><td>{b}</td><td>{w}</td><td style='text-align:left'>{a}</td></tr>\n".format(urn=x['urn'],
-                                                                                                                                              urnredux=x['urn'],
-                                                                                                                                              b=x['before'],
-                                                                                                                                              w=x['word'],
-                                                                                                                                              a=x['after'])
+        rows += row_template.format(urn=x['urn'], urnredux=x['urn'], b=x['before'], w=x['word'], a=x['after'])
     res = "<table>{rows}</table>".format(rows=rows)
     return res
 
