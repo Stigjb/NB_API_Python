@@ -10,7 +10,7 @@ from scipy.spatial.distance import cosine
 import networkx as nx
 try:
     from wordcloud import WordCloud
-except:
+except Exception:
     "Wordcloud -- hmmm"
 
 
@@ -52,7 +52,7 @@ def pure_urn(data):
     if type(data) is list and type(data[0]) is list:
         try:
             res = [x[0] for x in data]
-        except:
+        except Exception:
             res = []
     elif type(data) is list and not type(data[0]) is list:
         res = data
@@ -79,7 +79,7 @@ def difference(first, second, rf, rs, years=(1980, 2000), smooth=1, corpus='bok'
         f1 = s_a[a.columns[0]]/s_a[a.columns[1]]
         f2 = s_b[b.columns[0]]/s_b[b.columns[1]]
         res = f1/f2
-    except:
+    except Exception:
         res = 'Mangler noen data - har bare for: ' + \
             ', '.join([x for x in a.columns.append(b.columns)])
     return res
@@ -303,7 +303,7 @@ class Cluster:
                 self.corpus = model['corpus']
                 self.reference = pd.DataFrame(model['reference'])
                 self.collocates = pd.DataFrame(model['collocates'])
-            except:
+            except Exception:
                 print('noe gikk galt')
         return True
 
@@ -619,7 +619,7 @@ class Corpus:
                 self.combo_tot = pd.read_json(model['combo'])
                 self.mål_docf = pd.read_json(model['target_df'])
                 self.combo_docf = pd.read_json(model['combo_df'])
-            except:
+            except Exception:
                 print('noe gikk galt')
         return True
 
@@ -806,7 +806,7 @@ def get_konk(word, params=dict(), kind='html'):
                 res = pd.DataFrame(r.json())
                 res = res[['urn', 'before', 'word', 'after']]
 
-        except:
+        except Exception:
             res = pd.DataFrame()
         #r = r.style.set_properties(subset=['after'],**{'text-align':'left'})
     return res
@@ -848,7 +848,7 @@ def get_urnkonk(word, params=dict(), html=True):
     para['word'] = word
     try:
         para['urns'] = pure_urn(para['urns'])
-    except:
+    except Exception:
         print('Parameter urns missing')
     r = requests.post('https://api.nb.no/ngram/urnkonk', json=para)
     if html:
