@@ -460,7 +460,6 @@ def draw_cloud(sky, width=20, height=20, fil=''):
     figplot = plt.gcf()
     if fil != '':
         figplot.savefig(fil, format='png')
-    return
 
 
 def cloud(pd, column='', top=200, width=1000, height=1000, background='black', file='', stretch=10, font_path=None):
@@ -472,7 +471,6 @@ def cloud(pd, column='', top=200, width=1000, height=1000, background='black', f
                          background=background, font_path=font_path,
                          stretch=lambda x: 2**(stretch*x), width=width, height=height)
     draw_cloud(a_cloud, fil=file)
-    return
 
 
 def get_corpus(top=5, cutoff=5, navn='%', corpus='avis', yearfrom=1800, yearto=2020, samplesize=10):
