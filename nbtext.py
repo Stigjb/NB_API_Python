@@ -108,13 +108,12 @@ def get_urn(metadata = {}):
 
 def get_papers(top=5, cutoff=5, navn='%', yearfrom=1800, yearto=2020, samplesize=100):
     """Get newspapers"""
-    div = lambda x, y: (int(x/y), x % y)
     chunks = 20
     
     
     # split samplesize into chunks, go through the chunks and then the remainder
     
-    (first, second) = div(samplesize, chunks)
+    (first, second) = divmod(samplesize, chunks)
     r = []
     
     # collect chunkwise 
