@@ -476,7 +476,7 @@ class Corpus:
             'subject': subject,
             'ddk': ddk,
             'author': author,
-            #'gender':gender, ser ikke ut til å virke for get_urn - sjekk opp APIet
+            # 'gender':gender, ser ikke ut til å virke for get_urn - sjekk opp APIet
             'title': title,
             'limit': max_books,
             'reference': reference
@@ -486,7 +486,7 @@ class Corpus:
         if filename == '':
             målkorpus_def = get_urn(params)
 
-            #print("Antall bøker i målkorpus ", len(målkorpus_def))
+            # print("Antall bøker i målkorpus ", len(målkorpus_def))
             målkorpus_urn = [x[0] for x in målkorpus_def]
             if len(målkorpus_urn) > max_books:
                 target_urn = random.sample(målkorpus_urn, max_books)
@@ -499,7 +499,7 @@ class Corpus:
                 referansekorpus_def = get_urn(
                     {'year': period[0], 'next': period[1]-period[0], 'limit': reference})
 
-            #print("Antall bøker i referanse: ", len(referansekorpus_def))
+            # print("Antall bøker i referanse: ", len(referansekorpus_def))
             referanse_urn = [x[0] for x in referansekorpus_def]
             self.reference_urn = referanse_urn
             self.target_urn = target_urn
@@ -514,12 +514,12 @@ class Corpus:
 
             combo = målkorpus_txt.join(referanse_txt)
 
-            #self.combo = combo
-            #self.reference = referanse_txt
-            #self.target = målkorpus_txt
+            # self.combo = combo
+            # self.reference = referanse_txt
+            # self.target = målkorpus_txt
 
-            #self.reference = aggregate(reference)
-            #self.reference.columns = ['reference_corpus']
+            # self.reference = aggregate(reference)
+            # self.reference.columns = ['reference_corpus']
 
             # dokumentfrekvenser
 
@@ -756,7 +756,7 @@ def get_konk(word, params=dict(), kind='html'):
 
         except Exception:
             res = pd.DataFrame()
-        #r = r.style.set_properties(subset=['after'],**{'text-align':'left'})
+        # r = r.style.set_properties(subset=['after'],**{'text-align':'left'})
     return res
 
 
@@ -815,7 +815,7 @@ def get_urnkonk(word, params=dict(), html=True):
     else:
         res = pd.DataFrame(r.json())
         res = res[['urn', 'before', 'word', 'after']]
-        #r = r.style.set_properties(subset=['after'],**{'text-align':'left'})
+        # r = r.style.set_properties(subset=['after'],**{'text-align':'left'})
     return res
 
 
