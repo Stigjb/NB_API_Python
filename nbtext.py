@@ -103,8 +103,10 @@ def get_freq(urn, top=50, cutoff=3):
     return Counter(dict(r.json()))
 
 
-def get_urn(metadata={}):
+def get_urn(metadata=None):
     """Get urns fro metadata"""
+    if metadata is None:
+        metadata = {}
     if not ('next' in metadata or 'neste' in metadata):
         metadata['next'] = 100
     if 'year' not in metadata:
@@ -297,7 +299,9 @@ class Cluster:
         return res
 
 
-def wildcardsearch(params={'word': '', 'freq_lim': 50, 'limit': 50, 'factor': 2}):
+def wildcardsearch(params=None):
+    if params is None:
+        params = {'word': '', 'freq_lim': 50, 'limit': 50, 'factor': 2}
     res = requests.get('https://api.nb.no/ngram/wildcards', params=params)
     if res.status_code == 200:
         result = res.json()
@@ -600,7 +604,9 @@ class Corpus:
         return res
 
 
-def vekstdiagram(urn, params=dict()):
+def vekstdiagram(urn, params=None):
+    if params is None:
+        params = {}
 
     # if urn is the value of get_urn() it is a list
     # otherwise it just passes
@@ -697,7 +703,9 @@ def make_graph(word):
     return G
 
 
-def get_konk(word, params=dict(), kind='html'):
+def get_konk(word, params=None, kind='html'):
+    if params is None:
+        params = {}
 
     para = params
     para['word'] = word
@@ -784,7 +792,9 @@ def central_betweenness_characters(graph, n=10):
     return res
 
 
-def get_urnkonk(word, params=dict(), html=True):
+def get_urnkonk(word, params=None, html=True):
+    if params is None:
+        params = {}
 
     para = params
     para['word'] = word
