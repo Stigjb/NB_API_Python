@@ -91,17 +91,31 @@ def difference(first, second, rf, rs, years=(1980, 2000), smooth=1, corpus='bok'
 
 
 def col_agg(df, col='sum'):
-    c = df.sum(axis=0)
-    c = pd.DataFrame(c)
-    c.columns = [col]
-    return c
+    """Sum values in a DataFrame by columns.
+
+    Args:
+        df (DataFrame): Frame to be aggregated
+        col (str): Name of column in resulting DataFrame
+    
+    Returns:
+        DataFrame: Frame with each row the sum of a column in the
+            original frame.
+    """
+    return df.sum(axis=0).to_frame(name=col)
 
 
 def row_agg(df, col='sum'):
-    c = df.sum(axis=1)
-    c = pd.DataFrame(c)
-    c.columns = [col]
-    return c
+    """Sum values in a DataFrame by rows.
+
+    Args:
+        df (DataFrame): Frame to be aggregated
+        col (str): Name of column in resulting DataFrame
+    
+    Returns:
+        DataFrame: Frame with each row the sum of a row in the
+            original frame.
+    """
+    return df.sum(axis=1).to_frame(name=col)
 
 
 def get_freq(urn, top=50, cutoff=3):

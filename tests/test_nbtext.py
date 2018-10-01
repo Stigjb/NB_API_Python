@@ -36,7 +36,8 @@ def test_urn_from_text():
         # Text
         (text_with_urns, ["2014051408028", "2016010508155", "2010041205087"]),
         # Other
-        ({'key': 'value'}, [])
+        ({'key': 'value'}, []),
+        ([], [])
     ])
 def test_pure_urn(test_input, expected):
     res = pure_urn(test_input)
